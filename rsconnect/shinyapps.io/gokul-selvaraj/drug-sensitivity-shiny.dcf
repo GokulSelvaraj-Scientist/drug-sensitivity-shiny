@@ -1,0 +1,10 @@
+name: drug-sensitivity-shiny
+title:
+username: gokul-selvaraj
+account: gokul-selvaraj
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 16986093
+bundleId: 11761690
+url: https://gokul-selvaraj.shinyapps.io/drug-sensitivity-shiny/
+version: 1
