@@ -1,71 +1,82 @@
-# Drug Sensitivity Prediction: Interactive Shiny Dashboard
+# Drug Sensitivity Explorer: Real GDSC2 Data
 
 ## Overview
-An interactive R Shiny dashboard for exploring drug sensitivity patterns and predicting treatment response in cancer cell lines. Built on simulated GDSC-style (Genomics of Drug Sensitivity in Cancer) data, this app demonstrates end-to-end analysis from exploratory data visualization through machine learning prediction — all in an interactive interface.
+An interactive Shiny dashboard for exploring drug sensitivity across cancer types using real data from the Genomics of Drug Sensitivity in Cancer (GDSC2) database. The app enables exploration of 286 drugs across 969 cancer cell lines and 31 cancer types, with interactive filtering by drug, cancer type, and targeted pathway.
 
-## Background
-Predicting which cancer cell lines — and by extension which patients — will respond to a given drug is a central challenge in oncology drug development. The GDSC database is one of the largest public resources for pharmacogenomics data, linking genomic features of cancer cell lines to drug sensitivity measurements (IC50 values). This dashboard simulates that analytical workflow interactively.
+🚀 **[Open Live App](https://gokul-selvaraj.shinyapps.io/drug-sensitivity-shiny/)**
 
-## Features
+## Why This Matters
+Understanding differential drug sensitivity across cancer types is central to precision oncology and drug development. The GDSC database is one of the most widely used pharmacogenomics resources in cancer research, used to:
 
-### Overview Tab
-- Summary statistics across all 200 cell lines and 8 drugs
-- IC50 distribution by cancer type for selected drug
-- Drug sensitivity heatmap across all drugs and cancer types
-- Mutation frequency profiles by cancer type
+- **Identify cancer-type-specific drug sensitivities** — which tumour types respond best to which drugs
+- **Discover predictive biomarkers** — correlate genomic features with drug sensitivity
+- **Support drug repurposing** — identify new indications for existing compounds
+- **Inform clinical trial design** — select patient populations most likely to respond
 
-### Drug Explorer Tab
-- Interactive IC50 distribution with sensitive/resistant classification
-- IC50 comparison by mutation status (user-selectable)
-- Scatter plots of IC50 vs genomic features (TMB, ploidy, doubling time)
-- Summary statistics table by cancer type
+## Data Source
+- **Database:** Genomics of Drug Sensitivity in Cancer (GDSC2)
+- **Release:** GDSC2 Release 8.5 (October 2023)
+- **Source:** Sanger Institute — https://www.cancerrxgene.org/
+- **Scale:** 286 drugs × 969 cancer cell lines × 31 cancer types
+- **Measurements:** 195,278 drug sensitivity profiles
+- **Metrics:** LN_IC50, AUC, Z-score
 
-### ML Prediction Tab
-- Train Random Forest or Logistic Regression models interactively
-- Adjustable train/test split
-- Live ROC curve with AUC
-- Confusion matrix
-- Feature importance plot
-- Real-time model performance metrics
+## App Features
 
-### Biomarker Analysis Tab
-- Statistical testing (Wilcoxon rank-sum) for mutation-drug associations
-- Violin plots stratified by cancer type
-- Biomarker effect heatmap across all drug-mutation combinations
+### Drug Explorer
+- Select any of 286 real drugs and visualise sensitivity across all cancer types
+- Boxplots ordered by median sensitivity — identify most and least sensitive cancer types
+- IC50 distribution histogram with median labelled
+- Drug information panel: target, pathway, number of cell lines tested
 
-## Dataset
-- **Simulated** GDSC-style data based on published distributions
-- 200 cancer cell lines across 8 cancer types
-- 8 drugs with realistic genomic associations (e.g., EGFR mutation → Erlotinib sensitivity)
-- 12 genomic features: TP53, KRAS, BRAF, EGFR, PIK3CA mutations, MYC amplification, PTEN loss, MSI status, TMB, ploidy, doubling time
+### Cancer Analysis
+- Select any cancer type and identify its most sensitive drugs
+- Choose metric: LN_IC50, AUC, or Z-score
+- Adjust number of top drugs displayed (5-30)
+- Cross-cancer heatmap showing top drugs vs top cancer types
 
-## How to Run
+### Pathway Analysis
+- Filter by drug target pathway (EGFR signaling, PI3K/mTOR, RTK signaling, etc.)
+- Optionally filter by cancer type
+- Top 20 most sensitive drugs shown to avoid overcrowding
+- Pathway overview showing number of drugs per pathway
 
-### Locally
-1. Install R and RStudio
-2. Install required packages:
-```r
-install.packages(c("shiny", "shinydashboard", "ggplot2", "dplyr", "tidyr",
-                   "randomForest", "caret", "pROC", "RColorBrewer", "DT"))
-```
-3. Run the app:
-```r
-shiny::runApp("app.R")
-```
-
-### Online
-Deploy to shinyapps.io (free tier available):
-```r
-install.packages("rsconnect")
-rsconnect::deployApp(".")
-```
+### Data Table
+- Fully searchable and filterable table of all 195,278 measurements
+- Filter by cancer type, drug, and pathway simultaneously
+- Download filtered results as CSV
 
 ## Technical Stack
-- **Frontend:** R Shiny + shinydashboard
-- **ML:** caret, randomForest, pROC
-- **Visualization:** ggplot2, DT
-- **Statistics:** Wilcoxon rank-sum test
+- **Framework:** R Shiny + shinydashboard
+- **Data:** Real GDSC2 pharmacogenomics data (Sanger Institute)
+- **Visualisation:** ggplot2, viridis colour scales
+- **Table:** DT (interactive DataTables)
+- **Deployment:** shinyapps.io
+
+## How to Run Locally
+
+### Step 1 — Download GDSC2 data
+```r
+download.file(
+  "https://cog.sanger.ac.uk/cancerrxgene/GDSC_release8.5/GDSC2_fitted_dose_response_27Oct23.csv",
+  "GDSC2_fitted_dose_response_27Oct23.csv"
+)
+```
+
+### Step 2 — Install R packages
+```r
+install.packages(c("shiny", "shinydashboard", "ggplot2", "dplyr", "tidyr", "DT"))
+```
+
+### Step 3 — Run app
+```r
+setwd("path/to/drug-sensitivity-shiny")
+shiny::runApp()
+```
+
+Note: The GDSC2 CSV file (~50MB) is excluded from GitHub via .gitignore. Download it separately using the link above.
 
 ## Author
 **Gokul Selvaraj, PhD**
 GitHub: [GokulSelvaraj-Scientist](https://github.com/GokulSelvaraj-Scientist)
+Live App: [gokul-selvaraj.shinyapps.io/drug-sensitivity-shiny](https://gokul-selvaraj.shinyapps.io/drug-sensitivity-shiny/)
